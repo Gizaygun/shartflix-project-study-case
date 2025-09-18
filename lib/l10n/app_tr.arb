@@ -1,0 +1,10 @@
+{
+  "appTitle": "Shartflix",
+  "login": "Giriş",
+  "register": "Kayıt Ol",
+  "home": "Ana Sayfa",
+  "profile": "Profil",
+  "limitedOffer": "Sınırlı Teklif",
+  "noMovies": "Film bulunamadı",
+  "favorites": "Favori Filmlerim"
+}

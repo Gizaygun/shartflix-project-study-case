@@ -1,0 +1,15 @@
+[
+  {"id": 1, "title": "Inception", "poster": "https://picsum.photos/seed/m1/300/450"},
+  {"id": 2, "title": "Interstellar", "poster": "https://picsum.photos/seed/m2/300/450"},
+  {"id": 3, "title": "The Dark Knight", "poster": "https://picsum.photos/seed/m3/300/450"},
+  {"id": 4, "title": "Tenet", "poster": "https://picsum.photos/seed/m4/300/450"},
+  {"id": 5, "title": "Dune", "poster": "https://picsum.photos/seed/m5/300/450"},
+  {"id": 6, "title": "Blade Runner 2049", "poster": "https://picsum.photos/seed/m6/300/450"},
+  {"id": 7, "title": "The Matrix", "poster": "https://picsum.photos/seed/m7/300/450"},
+  {"id": 8, "title": "Whiplash", "poster": "https://picsum.photos/seed/m8/300/450"},
+  {"id": 9, "title": "La La Land", "poster": "https://picsum.photos/seed/m9/300/450"},
+  {"id": 10, "title": "Arrival", "poster": "https://picsum.photos/seed/m10/300/450"},
+  {"id": 11, "title": "Fight Club", "poster": "https://picsum.photos/seed/m11/300/450"},
+  {"id": 12, "title": "Se7en", "poster": "https://picsum.photos/seed/m12/300/450"}
+]
+

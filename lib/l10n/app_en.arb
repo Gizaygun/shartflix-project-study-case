@@ -1,0 +1,10 @@
+{
+  "appTitle": "Shartflix",
+  "login": "Login",
+  "register": "Register",
+  "home": "Home",
+  "profile": "Profile",
+  "limitedOffer": "Limited Offer",
+  "noMovies": "No movies found",
+  "favorites": "My Favorite Movies"
+}
