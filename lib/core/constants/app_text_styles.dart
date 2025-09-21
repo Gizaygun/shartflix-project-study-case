@@ -2,73 +2,61 @@ import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
 class AppTextStyles {
-  // 🔤 Headings
+  const AppTextStyles._();
+
   static const TextStyle heading1 = TextStyle(
-    fontSize: 48,
-    fontWeight: FontWeight.w700,
-    height: 59 / 48,
-    fontFamily: "InstrumentSans",
-    color: AppColors.white100,
+    fontSize: 28,
+    fontWeight: FontWeight.w800,
+    height: 1.10,
+    color: Colors.white,
   );
 
   static const TextStyle heading2 = TextStyle(
-    fontSize: 32,
-    fontWeight: FontWeight.w600,
-    height: 40 / 32,
-    fontFamily: "InstrumentSans",
-    color: AppColors.white100,
+    fontSize: 22,
+    fontWeight: FontWeight.w700,
+    height: 1.15,
+    color: Colors.white,
   );
 
   static const TextStyle heading3 = TextStyle(
-    fontSize: 24,
-    fontWeight: FontWeight.w600,
-    height: 32 / 24,
-    fontFamily: "InstrumentSans",
-    color: AppColors.white100,
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    height: 1.20,
+    color: Colors.white,
   );
 
-  // 🔤 Body
   static const TextStyle bodyLarge = TextStyle(
     fontSize: 16,
-    fontWeight: FontWeight.w400,
-    height: 24 / 16,
-    fontFamily: "InstrumentSans",
-    color: AppColors.white100,
+    fontWeight: FontWeight.w600,
+    height: 1.25,
+    color: Colors.white,
   );
 
   static const TextStyle bodyMedium = TextStyle(
     fontSize: 14,
-    fontWeight: FontWeight.w400,
-    height: 20 / 14,
-    fontFamily: "InstrumentSans",
-    color: AppColors.white100,
+    fontWeight: FontWeight.w500,
+    height: 1.25,
+    color: Colors.white70,
   );
 
   static const TextStyle bodySmall = TextStyle(
     fontSize: 12,
-    fontWeight: FontWeight.w400,
-    height: 16 / 12,
-    fontFamily: "InstrumentSans",
-    color: AppColors.white100,
+    fontWeight: FontWeight.w500,
+    height: 1.25,
+    color: Colors.white60,
   );
 
-  // ✅ Eksik olan "body" eklendi
-  static const TextStyle body = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.normal,
-    fontFamily: "InstrumentSans",
-    color: AppColors.white100,
-  );
+  /// Uyum için alias
+  static const TextStyle body = bodyMedium;
 
-  // 🔤 Buttons / Labels
   static const TextStyle button = TextStyle(
     fontSize: 16,
-    fontWeight: FontWeight.w600,
-    fontFamily: "InstrumentSans",
-    color: AppColors.white100,
+    fontWeight: FontWeight.w700,
+    height: 1.00,
+    color: Colors.white,
   );
 
-  // 🔤 Inputs
+  // Input alanları için alias’lar
   static const TextStyle inputText = bodyLarge;
   static const TextStyle inputHint = bodyMedium;
 }

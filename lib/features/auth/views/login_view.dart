@@ -6,11 +6,12 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_text_styles.dart';
 import '../../../core/widgets/custom_textfield.dart';
 import '../../../core/widgets/custom_checkbox.dart';
-import '../../../core/widgets/social_login_row.dart';
 import '../../../core/widgets/custom_button.dart';
 import '../../../core/providers/auth_provider.dart';
-import '../../nav_bar/main_shell.dart';
+import '../../nav_bar/view/main_shell.dart';
 import 'register_view.dart';
+import '../../../l10n/S.dart';
+import '../../../core/widgets/social_login_row.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -34,11 +35,11 @@ class _LoginViewState extends State<LoginView> {
     if (!mounted) return;
     if (success) {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const MainShell()),
+        MaterialPageRoute(builder: (_) => MainShell()),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Giriş başarısız!")),
+        SnackBar(content: Text(S.of(context)!.loginFailed)),
       );
     }
   }
@@ -55,32 +56,30 @@ class _LoginViewState extends State<LoginView> {
 
     return Scaffold(
       backgroundColor: AppColors.black,
+      appBar: AppBar(
+        title: Text(S.of(context)!.loginTitle, style: AppTextStyles.heading2),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(24.0), // ✅ padding parametresi
+          padding: const EdgeInsets.all(24.0),
           child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch, // ✅ doğru yazım
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
 
-                // 🔥 Lottie animasyon (Login → shywolflgn.json)
+                // 🔥 Lottie animasyon
                 SizedBox(
                   height: 180,
                   child: Lottie.asset("assets/lottie/shywolflgn.json"),
                 ),
                 const SizedBox(height: 20),
 
-                Text(
-                  "Giriş Yap",
-                  style: AppTextStyles.heading1,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 40),
-
                 // Email
                 CustomTextField(
-                  hintText: "E-posta",
+                  hintText: S.of(context)!.email,
                   controller: _emailController,
                   prefixIcon: Icons.email_outlined,
                 ),
@@ -88,7 +87,7 @@ class _LoginViewState extends State<LoginView> {
 
                 // Password
                 CustomTextField(
-                  hintText: "Şifre",
+                  hintText: S.of(context)!.password,
                   controller: _passwordController,
                   prefixIcon: Icons.lock_outline,
                   obscureText: true,
@@ -99,13 +98,13 @@ class _LoginViewState extends State<LoginView> {
                 CustomCheckbox(
                   value: rememberMe,
                   onChanged: (val) => setState(() => rememberMe = val),
-                  label: "Beni hatırla",
+                  label: S.of(context)!.rememberMe,
                 ),
                 const SizedBox(height: 24),
 
                 // Login Button
                 CustomButton(
-                  label: isLoading ? "Yükleniyor..." : "Giriş Yap",
+                  label: isLoading ? "..." : S.of(context)!.login,
                   onPressed: isLoading ? null : _login,
                 ),
 
@@ -114,19 +113,31 @@ class _LoginViewState extends State<LoginView> {
                 // Go to Register
                 TextButton(
                   onPressed: _goToRegister,
-                  child: const Text(
-                    "Hesabın yok mu? Kayıt Ol",
-                    style: TextStyle(color: Colors.white70),
+                  child: Text(
+                    S.of(context)!.noAccount,
+                    style: const TextStyle(color: Colors.white70),
                   ),
                 ),
 
-                const SizedBox(height: 40),
+                const SizedBox(height: 32),
 
-                // Social Login
+                // 🔥 Sosyal Giriş Butonları (Google, Apple, Facebook)
                 SocialLoginRow(
-                  onGoogleTap: () => debugPrint("Google login"),
-                  onAppleTap: () => debugPrint("Apple login"),
-                  onFacebookTap: () => debugPrint("Facebook login"),
+                  onGoogleTap: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Google Login tapped")),
+                    );
+                  },
+                  onAppleTap: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Apple Login tapped")),
+                    );
+                  },
+                  onFacebookTap: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Facebook Login tapped")),
+                    );
+                  },
                 ),
               ],
             ),

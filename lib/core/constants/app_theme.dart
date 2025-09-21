@@ -3,7 +3,7 @@ import 'app_colors.dart';
 import 'app_text_styles.dart';
 
 class AppTheme {
-  /// LIGHT THEME
+
   static ThemeData get lightTheme {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: AppColors.primary,
@@ -82,7 +82,6 @@ class AppTheme {
     );
   }
 
-  /// DARK THEME
   static ThemeData get darkTheme {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: AppColors.primary,

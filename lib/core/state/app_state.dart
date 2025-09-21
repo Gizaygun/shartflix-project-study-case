@@ -19,7 +19,6 @@ class AppState extends ChangeNotifier {
   }
 }
 
-// Basit, global bir scope için InheritedWidget
 class AppStateScope extends InheritedNotifier<AppState> {
   const AppStateScope({
     super.key,

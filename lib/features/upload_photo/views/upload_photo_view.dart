@@ -25,7 +25,7 @@ class _UploadPhotoViewState extends State<UploadPhotoView> {
       final file = File(picked.path);
       setState(() => _selectedPhoto = file);
 
-      // ✅ Provider'a kaydet
+
       if (mounted) {
         await context.read<AuthProvider>().updateProfilePhoto(file);
       }
@@ -96,7 +96,7 @@ class _UploadPhotoViewState extends State<UploadPhotoView> {
               border: Border.all(
                 color: AppColors.white20,
                 width: 1,
-                style: BorderStyle.solid, // ❌ Flutter’da dashed yok
+                style: BorderStyle.solid,
               ),
             ),
             child: const Center(

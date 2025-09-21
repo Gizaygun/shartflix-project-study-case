@@ -1,11 +1,10 @@
-import 'package:jr_case_boilerplate/features/home/models/movie.dart';
 import 'package:flutter/material.dart';
-import 'movie_card.dart';
+import 'package:shartflix/core/models/movie.dart';
+import 'package:shartflix/features/home/widgets/movie_card.dart';
 
 class AnimatedMovieCard extends StatefulWidget {
   final Movie movie;
   final int index;
-
   const AnimatedMovieCard({
     super.key,
     required this.movie,
@@ -16,49 +15,37 @@ class AnimatedMovieCard extends StatefulWidget {
   State<AnimatedMovieCard> createState() => _AnimatedMovieCardState();
 }
 
-class _AnimatedMovieCardState extends State<AnimatedMovieCard>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _opacity;
-  late Animation<Offset> _offset;
+class _AnimatedMovieCardState extends State<AnimatedMovieCard> {
+  bool _shown = false;
 
   @override
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 600),
-    );
-
-    _opacity = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-    );
-
-    _offset = Tween<Offset>(begin: const Offset(0, 0.1), end: Offset.zero)
-        .animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-    );
-
-    // Kartları sırayla göstermek için gecikme ekledik
-    Future.delayed(Duration(milliseconds: 100 * widget.index), () {
-      if (mounted) _controller.forward();
+    final delay = Duration(milliseconds: 60 * (widget.index % 8));
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Future.delayed(delay);
+      if (mounted) setState(() => _shown = true);
     });
   }
 
   @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: _opacity,
-      child: SlideTransition(
-        position: _offset,
-        child: MovieCard(movie: widget.movie),
+    const d = Duration(milliseconds: 420);
+    return AnimatedOpacity(
+      duration: d,
+      curve: Curves.easeOutCubic,
+      opacity: _shown ? 1.0 : 0.0,
+      child: AnimatedSlide(
+        duration: d,
+        curve: Curves.easeOutCubic,
+        offset: _shown ? Offset.zero : const Offset(0, 0.08),
+        child: AnimatedScale(
+          duration: d,
+          curve: Curves.easeOutBack,
+          scale: _shown ? 1.0 : 0.92,
+          child: MovieCard(movie: widget.movie),
+        ),
       ),
     );
   }

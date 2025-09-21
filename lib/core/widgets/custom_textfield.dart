@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jr_case_boilerplate/core/constants/app_colors.dart';
-import 'package:jr_case_boilerplate/core/constants/app_text_styles.dart';
+import 'package:shartflix/core/constants/app_colors.dart';
+import 'package:shartflix/core/constants/app_text_styles.dart';
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;

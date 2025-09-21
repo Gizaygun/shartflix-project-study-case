@@ -1,55 +1,54 @@
-import 'package:dio/dio.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class ApiClient {
-  ApiClient._internal() {
-    _dio = Dio(
-      BaseOptions(
-        baseUrl: "https://caseapi.servicelabs.tech",
-        connectTimeout: const Duration(seconds: 10),
-        receiveTimeout: const Duration(seconds: 10),
-        headers: {"Content-Type": "application/json"},
-      ),
-    );
+  static const String baseUrl = 'https://caseapi.servicelabs.tech';
+  static final ApiClient _i = ApiClient._();
+  ApiClient._();
+  factory ApiClient() => _i;
 
-    // Basit log interceptor (isteğe bağlı)
-    _dio.interceptors.add(LogInterceptor(
-      request: true,
-      requestBody: true,
-      responseBody: true,
-      responseHeader: false,
-      error: true,
-    ));
-  }
-
-  static final ApiClient _instance = ApiClient._internal();
-  factory ApiClient() => _instance;
-
-  late final Dio _dio;
   String? _token;
+  void setToken(String? t) => _token = t;
+  String? get token => _token; //
 
-  void setToken(String token) {
-    _token = token;
-    _dio.options.headers["Authorization"] = "Bearer $token";
+  Future<http.Response> get(String path, {Map<String, String>? query}) async {
+    final uri = Uri.parse('$baseUrl$path').replace(queryParameters: query);
+    final headers = <String, String>{
+      'accept': 'application/json',
+      if (_token != null) 'Authorization': 'Bearer $_token',
+    };
+    final res = await http.get(uri, headers: headers);
+    _throwIfError(res);
+    return res;
   }
 
-  void clearToken() {
-    _token = null;
-    _dio.options.headers.remove("Authorization");
+  Future<http.Response> post(String path, {Object? body}) async {
+    final uri = Uri.parse('$baseUrl$path');
+    final headers = <String, String>{
+      'accept': 'application/json',
+      'Content-Type': 'application/json',
+      if (_token != null) 'Authorization': 'Bearer $_token',
+    };
+    final res = await http.post(
+      uri,
+      headers: headers,
+      body: body == null ? null : jsonEncode(body),
+    );
+    _throwIfError(res);
+    return res;
   }
 
-  Future<Response> get(String path, {Map<String, dynamic>? query}) {
-    return _dio.get(path, queryParameters: query);
+  void _throwIfError(http.Response res) {
+    if (res.statusCode >= 400) {
+      throw ApiError(res.statusCode, res.body);
+    }
   }
+}
 
-  Future<Response> post(String path, {dynamic data}) {
-    return _dio.post(path, data: data);
-  }
-
-  Future<Response> put(String path, {dynamic data}) {
-    return _dio.put(path, data: data);
-  }
-
-  Future<Response> delete(String path, {dynamic data}) {
-    return _dio.delete(path, data: data);
-  }
+class ApiError implements Exception {
+  final int code;
+  final String body;
+  ApiError(this.code, this.body);
+  @override
+  String toString() => 'ApiError($code): $body';
 }

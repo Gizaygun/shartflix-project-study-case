@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import '../constants/app_text_styles.dart';
-import '../constants/app_colors.dart';
 
 class SocialLoginRow extends StatelessWidget {
   final VoidCallback onGoogleTap;
@@ -14,59 +12,87 @@ class SocialLoginRow extends StatelessWidget {
     required this.onFacebookTap,
   });
 
+  Widget _buildIconButton({
+    required String assetPath,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: const SizedBox(
+        width: 48,
+        height: 48,
+        child: Center(
+
+          child: _IconImage(),
+        ),
+      ),
+    )._withAsset(assetPath);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          "veya",
-          style: AppTextStyles.body.copyWith(color: Colors.white70),
+        _buildIconButton(
+          assetPath: "assets/icons/google.png",
+          onTap: onGoogleTap,
         ),
-        const SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _socialButton(
-              icon: Icons.g_mobiledata, // Google için (istersen asset ekleriz)
-              color: Colors.red,
-              onTap: onGoogleTap,
-            ),
-            const SizedBox(width: 20),
-            _socialButton(
-              icon: Icons.apple,
-              color: Colors.white,
-              onTap: onAppleTap,
-            ),
-            const SizedBox(width: 20),
-            _socialButton(
-              icon: Icons.facebook,
-              color: Colors.blue,
-              onTap: onFacebookTap,
-            ),
-          ],
+        const SizedBox(width: 24),
+        _buildIconButton(
+          assetPath: "assets/icons/apple.png",
+          onTap: onAppleTap,
+        ),
+        const SizedBox(width: 24),
+        _buildIconButton(
+          assetPath: "assets/icons/facebook.png",
+          onTap: onFacebookTap,
         ),
       ],
     );
   }
+}
 
-  Widget _socialButton({
-    required IconData icon,
-    required Color color,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(50),
-      child: Container(
-        width: 56,
-        height: 56,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: AppColors.black.withOpacity(0.1),
-          border: Border.all(color: color, width: 1.5),
-        ),
-        child: Icon(icon, color: color, size: 28),
-      ),
+
+class _IconImage extends StatelessWidget {
+  const _IconImage();
+
+  @override
+  Widget build(BuildContext context) {
+
+    final provider = _IconAsset.of(context);
+    return Image.asset(
+      provider.assetPath,
+      width: 24,
+      height: 24,
+      fit: BoxFit.contain,
+      filterQuality: FilterQuality.high,
     );
   }
+}
+
+class _IconAsset extends InheritedWidget {
+  final String assetPath;
+  const _IconAsset({
+    required this.assetPath,
+    required super.child,
+    super.key,
+  });
+
+  static _IconAsset of(BuildContext context) {
+    final result = context.dependOnInheritedWidgetOfExactType<_IconAsset>();
+    assert(result != null, 'Icon asset not found in context');
+    return result!;
+  }
+
+  @override
+  bool updateShouldNotify(covariant _IconAsset oldWidget) =>
+      oldWidget.assetPath != assetPath;
+}
+
+
+extension _WithAsset on Widget {
+  Widget _withAsset(String assetPath) =>
+      _IconAsset(assetPath: assetPath, child: this);
 }

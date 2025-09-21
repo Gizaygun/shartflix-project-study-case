@@ -5,7 +5,7 @@ import '../../../core/models/user_model.dart';
 class AuthService {
   final ApiClient _api = ApiClient();
 
-  /// LOGIN
+
   Future<Map<String, dynamic>> login(String email, String password) async {
     final response = await _api.post(
       "/user/login",
@@ -27,7 +27,7 @@ class AuthService {
     }
   }
 
-  /// REGISTER
+
   Future<Map<String, dynamic>> register(String name, String email, String password) async {
     final response = await _api.post(
       "/user/register",

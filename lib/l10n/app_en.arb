@@ -1,10 +1,38 @@
 {
-  "appTitle": "Shartflix",
-  "login": "Login",
-  "register": "Register",
-  "home": "Home",
-  "profile": "Profile",
+  "@@locale": "en",
+  "appName": "Shartflix",
+
+  "loginTitle": "Sign In",
+  "email": "Email",
+  "password": "Password",
+  "rememberMe": "Remember me",
+  "login": "Sign In",
+  "loginFailed": "Login failed!",
+  "noAccount": "Don’t have an account? Register",
+
+  "homeTitle": "Home",
+  "profileTitle": "Profile",
+  "favoritesTitle": "My Favorites",
+  "favoriteEmpty": "No favorite movies yet",
+
   "limitedOffer": "Limited Offer",
-  "noMovies": "No movies found",
-  "favorites": "My Favorite Movies"
+  "coinOption": "Coin Option",
+  "unitCoin": "Coin",
+  "weeklyPriceSub": "Per week",
+  "monthlyPriceSub": "Monthly package",
+  "weeklyPackageCta": "Continue with weekly",
+  "monthlyPackageCta": "Continue with monthly",
+
+  "logout": "Logout",
+  "changeLanguage": "Change Language",
+
+  "homeNav": "Home",
+  "profileNav": "Profile",
+
+  "photoUpdated": "Photo updated successfully",
+  "photoUpdateFailed": "Photo update failed",
+  "error": "Error",
+  "changePhoto": "Change Photo",
+  "defaultUser": "User",
+  "noFavorites": "No favorites yet"
 }

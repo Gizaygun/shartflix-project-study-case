@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_strings.dart';
 import 'login_view.dart';
@@ -7,6 +8,7 @@ import 'register_view.dart';
 
 class AuthShell extends StatefulWidget {
   const AuthShell({super.key});
+
   @override
   State<AuthShell> createState() => _AuthShellState();
 }
@@ -34,7 +36,7 @@ class _AuthShellState extends State<AuthShell> {
               flex: 2,
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 250),
-              s  child: showLogin
+                child: showLogin
                     ? const LoginView(key: ValueKey('login'))
                     : const RegisterView(key: ValueKey('register')),
               ),
@@ -42,8 +44,10 @@ class _AuthShellState extends State<AuthShell> {
             TextButton(
               onPressed: () => setState(() => showLogin = !showLogin),
               child: Text(
-                showLogin ? t(context, 'no_account') : t(context, 'have_account'),
-                style: const TextStyle(color: AppColors.grey),
+                showLogin
+                    ? t(context, 'no_account')
+                    : t(context, 'have_account'),
+                style: const TextStyle(color: Colors.grey), // ✅ düzeltildi
               ),
             ),
             const SizedBox(height: 12),

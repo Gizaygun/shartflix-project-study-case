@@ -1,43 +1,45 @@
+import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
+
+import 'package:flutter/foundation.dart';
+
+import '../models/app_user.dart';
+import '../network/api_client.dart';
+import '../network/token_storage.dart';
 
 import '../../features/auth/services/auth_service.dart';
-import '../../features/auth/models/auth_response.dart';
-import '../../features/auth/models/user.dart';
 import '../../features/upload_photo/services/upload_service.dart';
-import '../network/api_client.dart'; // ✅ Token set etmek için
 
-class AuthProvider with ChangeNotifier {
-  final AuthService _authService = AuthService();
-  final ApiClient _api = ApiClient(); // ✅
+class AuthProvider extends ChangeNotifier {
+  final _authService = AuthService();
+  final _uploadService = UploadService();
 
-  String? _token;
-  User? _user;
+  AppUser? _user;
   bool _isLoading = false;
+  String? _photoUrlOverride;
 
-  String? get token => _token;
-  User? get user => _user;
+  AppUser? get user => _user;
   bool get isLoading => _isLoading;
+  String? get photoUrl => _photoUrlOverride ?? _user?.photoUrl;
 
   Future<bool> login(String email, String password) async {
     _isLoading = true;
     notifyListeners();
     try {
-      final AuthResponse result = await _authService.login(
-        email: email,
-        password: password,
-      );
-      _token = result.token;
-      _user = result.user;
+      final res = await _authService.login(email, password);
+      final data = (res['data'] ?? {}) as Map<String, dynamic>;
 
-      if (_token != null) {
-        _api.setToken(_token!); // ✅ Tüm API isteklerinde kullanılsın
-      }
+      final token = (data['token'] ?? '').toString();
+      if (token.isEmpty) throw Exception('Token alınamadı');
 
+      ApiClient().setToken(token);
+      await TokenStorage.save(token);
+
+      _user = AppUser.fromLoginData(data);
+      _photoUrlOverride = null;
       return true;
-    } on DioException catch (e) {
-      debugPrint("🔴 Login error: ${e.response?.data ?? e.message}");
+    } catch (e) {
+      if (kDebugMode) print('login error: $e');
       return false;
     } finally {
       _isLoading = false;
@@ -49,21 +51,20 @@ class AuthProvider with ChangeNotifier {
     _isLoading = true;
     notifyListeners();
     try {
-      final AuthResponse result = await _authService.register(
-        name: name,
-        email: email,
-        password: password,
-      );
-      _token = result.token;
-      _user = result.user;
+      final res = await _authService.register(name, email, password);
+      final data = (res['data'] ?? {}) as Map<String, dynamic>;
 
-      if (_token != null) {
-        _api.setToken(_token!); // ✅
+      final token = (data['token'] ?? '').toString();
+      if (token.isNotEmpty) {
+        ApiClient().setToken(token);
+        await TokenStorage.save(token);
       }
 
+      _user = data.isNotEmpty ? AppUser.fromLoginData(data) : null;
+      _photoUrlOverride = null;
       return true;
-    } on DioException catch (e) {
-      debugPrint("🔴 Register error: ${e.response?.data ?? e.message}");
+    } catch (e) {
+      if (kDebugMode) print('register error: $e');
       return false;
     } finally {
       _isLoading = false;
@@ -71,19 +72,71 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  /// Fotoğrafı upload edip dönen url'i kullanıcıya yaz
-  Future<void> updateProfilePhoto(File file) async {
-    final url = await UploadService().uploadProfilePhoto(file);
-    if (url != null && _user != null) {
-      _user = _user!.copyWith(photoUrl: url);
+  Future<bool> updateProfilePhoto(File file) async {
+    try {
+      // UploadService tarafının imzası: Future<String> uploadPhoto(File file)
+      // (Eğer sende StreamedResponse dönen eski versiyon varsa haber ver, onu da uyumlarım.)
+      final String url = await _uploadService.uploadPhoto(file);
+      if (url.isEmpty) return false;
+
+      // 1) UI'ı anında güncelle
+      _photoUrlOverride = url;
+
+      // 2) Kullanıcı modelini güncelle
+      if (_user != null) {
+        try {
+          _user = _user!.copyWith(photoUrl: url);
+        } catch (_) {
+          _user = AppUser(
+            id: _user!.id,
+            name: _user!.name,
+            email: _user!.email,
+            photoUrl: url,
+            token: _user!.token,
+          );
+        }
+      }
+
       notifyListeners();
+
+      await refreshProfile();
+      return true;
+    } catch (e) {
+      if (kDebugMode) print('updateProfilePhoto error: $e');
+      return false;
     }
   }
 
-  void logout() {
-    _token = null;
+  Future<bool> refreshProfile() async {
+    try {
+      final res = await ApiClient().get('/user/profile');
+      final json = jsonDecode(res.body) as Map<String, dynamic>;
+      final data = (json['data'] ?? {}) as Map<String, dynamic>;
+      if (data.isEmpty) return false;
+
+      _user = AppUser.fromLoginData(data);
+      _photoUrlOverride = null; // sunucudaki kesin değer
+      notifyListeners();
+      return true;
+    } catch (e) {
+      if (kDebugMode) print('refreshProfile error: $e');
+      return false;
+    }
+  }
+
+
+  Future<void> ensureProfileLoaded() async {
+    if (_user == null) {
+      await refreshProfile();
+    }
+  }
+
+
+  Future<void> logout() async {
+    ApiClient().setToken(null);
+    await TokenStorage.clear();
     _user = null;
-    _api.setToken(""); // ✅ Token’ı sıfırla
+    _photoUrlOverride = null;
     notifyListeners();
   }
 }

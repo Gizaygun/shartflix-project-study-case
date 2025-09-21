@@ -1,10 +1,38 @@
 {
-  "appTitle": "Shartflix",
-  "login": "Giriş",
-  "register": "Kayıt Ol",
-  "home": "Ana Sayfa",
-  "profile": "Profil",
+  "@@locale": "tr",
+  "appName": "Shartflix",
+
+  "loginTitle": "Giriş Yap",
+  "email": "E-posta",
+  "password": "Şifre",
+  "rememberMe": "Beni hatırla",
+  "login": "Giriş Yap",
+  "loginFailed": "Giriş başarısız!",
+  "noAccount": "Hesabın yok mu? Kayıt ol",
+
+  "homeTitle": "Ana Sayfa",
+  "profileTitle": "Profil",
+  "favoritesTitle": "Favori Filmlerim",
+  "favoriteEmpty": "Henüz favori film yok",
+
   "limitedOffer": "Sınırlı Teklif",
-  "noMovies": "Film bulunamadı",
-  "favorites": "Favori Filmlerim"
+  "coinOption": "Coin Seçeneği",
+  "unitCoin": "Coin",
+  "weeklyPriceSub": "Haftalık",
+  "monthlyPriceSub": "Aylık paket",
+  "weeklyPackageCta": "Haftalık ile devam et",
+  "monthlyPackageCta": "Aylık ile devam et",
+
+  "logout": "Çıkış Yap",
+  "changeLanguage": "Dili Değiştir",
+
+  "homeNav": "Ana Sayfa",
+  "profileNav": "Profil",
+
+  "photoUpdated": "Fotoğraf güncellendi",
+  "photoUpdateFailed": "Fotoğraf güncellenemedi",
+  "error": "Hata",
+  "changePhoto": "Fotoğrafı Değiştir",
+  "defaultUser": "Kullanıcı",
+  "noFavorites": "Henüz favori film yok"
 }

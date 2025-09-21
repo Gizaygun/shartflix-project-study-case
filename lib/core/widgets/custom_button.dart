@@ -4,7 +4,7 @@ import '../constants/app_text_styles.dart';
 
 class CustomButton extends StatelessWidget {
   final String label;
-  final VoidCallback? onPressed; // nullable (for disabled state)
+  final VoidCallback? onPressed;
   final bool fullWidth;
   final IconData? leftIcon;
   final IconData? rightIcon;

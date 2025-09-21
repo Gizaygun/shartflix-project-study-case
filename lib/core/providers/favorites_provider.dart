@@ -1,28 +1,39 @@
 import 'package:flutter/material.dart';
-
-// Paket importları, relative karmaşayı önler:
-import 'package:jr_case_boilerplate/features/home/models/movie.dart';
-import 'package:jr_case_boilerplate/features/home/services/movie_service.dart';
+import '../../features/home/models/movie.dart';
 
 class FavoritesProvider extends ChangeNotifier {
-  final Set<int> _favoriteMovieIds = {};
+  final Map<String, Movie> _movies = {};
+  final Set<String> _ids = {};
 
-  Set<int> get favoriteMovieIds => _favoriteMovieIds;
+  List<Movie> get favorites =>
+      _ids.map((id) => _movies[id]).whereType<Movie>().toList(growable: false);
 
-  bool isFavorite(int movieId) => _favoriteMovieIds.contains(movieId);
+  bool isFavorite(String id) => _ids.contains(id);
 
-  void toggleFavorite(int movieId) {
-    if (_favoriteMovieIds.contains(movieId)) {
-      _favoriteMovieIds.remove(movieId);
+  void toggleFavorite(String id, {Movie? movie}) {
+    if (_ids.contains(id)) {
+      _ids.remove(id);
     } else {
-      _favoriteMovieIds.add(movieId);
+      _ids.add(id);
+      if (movie != null) _movies[id] = movie;
     }
     notifyListeners();
   }
 
-  /// Favori filmleri List<Movie> olarak döndür (MovieService cache üzerinden)
-  List<Movie> get favorites {
-    final all = MovieService().getCachedMovies();
-    return all.where((m) => _favoriteMovieIds.contains(m.id)).toList();
+  void seedMovies(Iterable<Movie> movies) {
+    for (final m in movies) {
+      _movies[m.id] = m;
+    }
+  }
+
+  void setFavoritesFromBackend(Iterable<String> ids,
+      {Iterable<Movie>? known}) {
+    _ids
+      ..clear()
+      ..addAll(ids);
+    if (known != null) {
+      seedMovies(known);
+    }
+    notifyListeners();
   }
 }
