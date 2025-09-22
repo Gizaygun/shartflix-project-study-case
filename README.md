@@ -46,10 +46,6 @@ Tüm ekranlar Figma tasarımına sadık kalınarak piksel hassasiyetinde gelişt
 
 ---
 
-## 🎥 Demo
-![Demo](screenrecord/demo.gif)
-
-
 📌 Bu proje tamamen teknik değerlendirme amacıyla geliştirilmiştir. Ticari bir ürün değildir.  
 
 
