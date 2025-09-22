@@ -1,55 +1,49 @@
-import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
-import '../../../core/constants/app_colors.dart';
-import '../../../core/constants/app_strings.dart';
-import 'login_view.dart';
-import 'register_view.dart';
+# 🎬 Shartflix · Junior Flutter Developer Case Study
 
-class AuthShell extends StatefulWidget {
-const AuthShell({super.key});
-@override
-State<AuthShell> createState() => _AuthShellState();
-}
+Merhaba,  
+Bu proje Junior Flutter Developer pozisyonu için hazırladığım teknik değerlendirme çalışmasıdır.  
+Amaç, Flutter ile modern bir mobil uygulama geliştirirken UI hassasiyeti, performans, kod kalitesi ve best practice konularındaki yetkinliğimi göstermekti.
 
-class _AuthShellState extends State<AuthShell> {
-bool showLogin = true;
+---
 
-@override
-Widget build(BuildContext context) {
-return Scaffold(
-body: SafeArea(
-minimum: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-child: Column(
-children: [
-const Spacer(),
-SizedBox(
-height: 160,
-child: Lottie.network(
-'https://assets3.lottiefiles.com/packages/lf20_jcikwtux.json',
-repeat: true,
-),
-),
-const SizedBox(height: 16),
-Expanded(
-flex: 2,
-child: AnimatedSwitcher(
-duration: const Duration(milliseconds: 250),
-child: showLogin
-? const LoginView(key: ValueKey('login'))
-: const RegisterView(key: ValueKey('register')),
-),
-),
-TextButton(
-onPressed: () => setState(() => showLogin = !showLogin),
-child: Text(
-showLogin ? t(context, 'no_account') : t(context, 'have_account'),
-style: const TextStyle(color: AppColors.grey),
-),
-),
-const SizedBox(height: 12),
-],
-),
-),
-);
-}
-}
+## 🚀 Proje Hakkında
+Shartflix, film keşfetme konsepti üzerine tasarlanmış bir uygulamadır.  
+Tüm ekranlar Figma tasarımına sadık kalınarak piksel hassasiyetinde geliştirildi.  
+
+Öne çıkan özellikler:  
+- Login / Register ekranları → Lottie animasyonu ve form validasyonları  
+- Profil fotoğrafı yükleme → Placeholder ↔ Gerçek fotoğraf geçişi  
+- Ana Sayfa → API’den gelen film listesi, animasyonlu kartlar, favori butonu  
+- Profil Sayfası → Kullanıcı bilgileri ve beğenilen filmler (Grid/List)  
+- Bottom Navigation → Anasayfa ↔ Profil geçişleri, animasyonlarla desteklenmiş  
+- Custom Bottom Sheet (Coin Offer) → Responsive, tamamen custom tasarım  
+
+---
+
+## 🛠️ Kullandığım Teknolojiler
+- Flutter & Dart  
+- State Management: Provider  
+- Custom Theme & Design System (renkler, tipografi, spacing)  
+- Localization: Türkçe & İngilizce desteği  
+- Animasyonlar: Lottie, splash screen, sayfa geçişleri  
+- Reusable Components: Buton, kart, text style  
+- API Entegrasyonu: Login, Register, Movie List, Favorites  
+
+---
+
+## 🎯 Çalışırken Önceliklerim
+- Kod organizasyonunu temiz ve modüler tutmak  
+- Tasarıma sadık kalarak pixel-perfect UI geliştirmek  
+- Kullanıcı deneyimini artıracak animasyonları doğru noktalarda kullanmak  
+- Performansı koruyarak responsive yapıyı sağlamak  
+
+---
+
+## 📦 Teslimat
+- Kodlar: GitHub repository (düzenli commit’lerle)  
+- Ekran görüntüleri: Tüm ekranlar (tasarıma uygun)  
+- Demo videosu: Uygulama geçişleri, animasyonlar ve deneyim (1-2 dk)  
+
+---
+
+📌 Bu proje tamamen teknik değerlendirme amacıyla geliştirilmiştir. Ticari bir ürün değildir.  
