@@ -1,10 +1,4 @@
-# 🎬 Shartflix · Junior Flutter Developer Case Study
-
-Merhaba,  
-Bu proje Junior Flutter Developer pozisyonu için hazırladığım teknik değerlendirme çalışmasıdır.  
-Amaç, Flutter ile modern bir mobil uygulama geliştirirken UI hassasiyeti, performans, kod kalitesi ve best practice konularındaki yetkinliğimi göstermekti.
-
----
+# 🎬 Shartflix ·  Flutter Developer Study
 
 ## 🚀 Proje Hakkında
 Shartflix, film keşfetme konsepti üzerine tasarlanmış bir uygulamadır.  
@@ -39,13 +33,5 @@ Tüm ekranlar Figma tasarımına sadık kalınarak piksel hassasiyetinde gelişt
 
 ---
 
-## 📦 Teslimat
-- Kodlar: GitHub repository (düzenli commit’lerle)  
-- Ekran görüntüleri: Tüm ekranlar (tasarıma uygun)  
-- Demo videosu: Uygulama geçişleri, animasyonlar ve deneyim (1-2 dk)  
-
----
-
-📌 Bu proje tamamen teknik değerlendirme amacıyla geliştirilmiştir. Ticari bir ürün değildir.  
 
 
